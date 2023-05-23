@@ -27,12 +27,33 @@ bool isCircular(Node *head) {
 
     if(slow ==fast){
       if (slow==head)// why not only this condition is sufficient???
+      // coz we dont want looped circular list with shape 9 but complete ciruclare list in which tail is connected to head not any other node.
       return true;
       else return false;
     } 
     
 
   } 
+  return false;
+  
+}
+
+
+
+// ANOTHER APPROACH
+
+bool isCircular(Node *head) {
+  if (head == NULL)
+    return true;
+  Node * temp = head->next;
+  while(temp!=NULL && temp->data!=0){
+    if(temp==head){
+      return true;
+    }
+    temp->data =0;
+    temp=temp->next;    
+
+  }
   return false;
   
 }
