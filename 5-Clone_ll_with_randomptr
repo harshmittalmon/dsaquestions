@@ -1,0 +1,35 @@
+void insert(Node * &head,Node * &tail,int x){
+        Node * newnode = new Node(x);
+        if(head==NULL){
+            head= tail = newnode;
+        }
+        else{
+            tail->next = newnode;
+            tail= newnode;
+        }
+    }
+    Node *copyList(Node *head)
+    {
+        Node * clonehead= NULL ;
+        Node * clonetail=NULL;
+        Node * temp= head;
+        while(temp!= NULL){
+            insert(clonehead,clonetail,temp->data);
+            temp= temp->next;
+        }
+        map<Node*,Node*> origtoclone;
+        temp=head;
+        Node *temp2= clonehead;
+        while(temp!=NULL && temp2!= NULL){
+            origtoclone[temp]=temp2;
+            temp=temp->next;
+            temp2=temp2->next;
+        }
+        temp=head;
+        temp2= clonehead;
+        while(temp!=NULL && temp2!=NULL){
+            temp2->arb= origtoclone[temp->arb];
+            temp=temp->next;
+            temp2=temp2->next;
+        }
+        
