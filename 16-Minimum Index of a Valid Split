@@ -1,0 +1,33 @@
+class Solution {
+public:
+    bool ismaj(int len , int count){
+        if(count*2>len)return true;
+        return false;
+    }
+    int minimumIndex(vector<int>& nums) {
+        map<int,int> mp;
+        for(int i=0;i<nums.size();i++){
+            int num = nums[i];
+            mp[num]++;
+        }
+        int count1 = INT_MIN;
+        int num=0;
+        for(auto &i: mp){
+            if(i.second>count1){
+                count1 = i.second;
+                num = i.first;
+            }
+        }
+        int i=0,j=nums.size();
+        int ans = -1;
+        int count2=0;
+        int subarrlen=0;
+        for(i;i<j;i++){
+            subarrlen++;
+            if(nums[i]==num)count2++;
+            if(ismaj(subarrlen,count2) && ismaj(j-subarrlen, count1-count2))return i;
+        }
+        return -1;
+        
+    }
+};
