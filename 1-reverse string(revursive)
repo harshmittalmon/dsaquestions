@@ -1,0 +1,15 @@
+class Solution {
+public:
+    void reverse(vector<char>& s,int size){
+        if(size==0){
+            s.clear();
+            return ;
+        }
+        char ele = s[s.size()-size];
+        reverse(s,size-1);
+        s.push_back(ele);
+    }
+    void reverseString(vector<char>& s) {
+        reverse(s,s.size());
+    }
+};
