@@ -1,0 +1,24 @@
+class Solution {
+public:
+    map<char,int> mp= {{ 'a',97 },{  'e', 101},{'i',105},{ 'o',111},{'u',117},{'A',65},{'E',69},{'I',73},{'O',79},{'U',85}};
+    string sortVowels(string s) {
+    set<int> vows_index;
+    multiset<int> vows_ascii;
+    
+    for(int i=0;i<s.size();i++){
+        if(mp.find(s[i]) !=mp.end()){
+            vows_index.insert(i);
+            vows_ascii.insert(mp[s[i]]);
+        }
+    }
+    
+    int size= vows_ascii.size();
+    auto i = vows_index.begin();
+    auto j = vows_ascii.begin();
+    for(i,j  ; i != vows_index.end(), j!= vows_ascii.end(); ++i,++j){
+        s[*i]= *j;
+    }
+    return s;
+        
+    }
+};
