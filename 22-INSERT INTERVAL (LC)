@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        map<int,int> mp;
+        for(auto & i : intervals){
+            mp[i[0]]++;
+            --mp[i[1]];
+        }
+        mp[newInterval[0]]++;
+        mp[newInterval[1]]--;
+        vector<vector<int>> ans;
+        int count =0;
+        for(auto & i  :mp){
+            if(count==0){
+                ans.push_back({i.first,-1});
+            }
+            count+=i.second;
+            if(count==0){
+                ans.back()[1]=i.first;
+            }
+        }
+        return ans;
+    }
+};
