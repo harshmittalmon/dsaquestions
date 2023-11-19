@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int maxSumRangeQuery(vector<int>& nums, vector<vector<int>>& requests) {
+        sort(nums.begin(),nums.end(),[&](int x , int y ){return x>y;});
+        int n= nums.size();
+        int mod = 1e9 + 7;
+        vector<int>  count(n,0);
+        for(auto & i : requests){
+            
+            ++count[i[0]];
+            if(i[1]+1<n)
+            --count[i[1]+1];
+        }
+        for(int i=1;i<n;i++)count[i]+=count[i-1];
+        sort(count.begin(),count.end(),[&](int x , int y ){return x>y;});
+        long long sum = 0;
+        for(int i=0;i<n;i++){
+            sum+=((count[i]%mod*1ll*nums[i]%mod)%mod);
+            sum%=mod;            
+        }
+        return sum;
+    }
+};
