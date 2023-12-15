@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+using namespace std;
+long long maincount =0;
+class Solution {
+public:
+    
+    
+    
+    static long long merge(vector<int> & nums, int l,int r,int mid){
+        int size = r-l+1,k=0,i=l,j=mid+1;
+        long long count =0;
+        vector<int> temp(size);
+        while(i< mid+1 and  j <= r ){
+            if(nums[i]> nums[j]){
+                
+                // cout <<"l : "<<l<<" r : "<<r<< "  k: "<<k<< "  j: "<<j<<endl;
+                temp[k++] = nums[j++];
+                count+=(mid+1-i);
+            }
+            
+            else{
+              // cout<<"l : "<<l<<" r : "<<r << "  k: "<<k<< "  i: "<<i<<endl;
+                temp[k++]=nums[i++];
+                
+            }
+        }
+        for(int x = i;x<=mid;x++){
+            temp[k++]=nums[x];
+        }
+        for(int x = j;x<=r;x++){
+            temp[k++]=nums[x];
+            // cout << "k  "<< k<<" j "<<j<<endl;
+        }
+        for(int i=l;i<=r;i++){
+            nums[i]=temp[i-l];
+            // for(auto& i: temp){
+              // cout << i<<" ";
+            // }
+            // cout <<endl;
+            // for(auto & i : nums){
+      // cout << i<<" ";
+    // }cout<<endl;
+        }
+        return count;
+        
+    }
+    static void sort(vector<int> & nums, int l ,int r){
+        // cout << l<< " "<<r<<endl;
+        if(l==r)return ;
+        int mid = (l+r)>>1;
+        sort(nums,l,mid);
+        sort(nums,mid+1,r);
+        maincount+=(merge(nums,l,r,mid));
+    }
+    static void sortArray(vector<int>& nums) {
+        int left = 0 , right = nums.size()-1,mid = (left+right)>>1;
+        sort(nums,left,right);
+        
+    }
+};
+long long numberOfInversions(vector<int>&a, int n) {
+    Solution::sortArray(a);
+    return maincount;
+}
