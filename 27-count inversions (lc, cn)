@@ -1,0 +1,75 @@
+
+class solution {
+public:
+    // MERGING FUNCTION-----------------------------------------IN THIS WE JUST SORT COUNT HAS NO ROLE IN IT-----------------
+    // THE PROBLEM IS : [ 6 13 21 25 ] [ 1 2 3 4 4 5 ] 
+    // YOU WILL TAKE 1 AND MOVE FWD THEN 2 AND ON 3 YOU STOP AS 6 == 6 
+    // WE WILL MISS CONVERSIONS OF {13,1},{13,2} etc. 
+    static void merge(vector<int> & nums, int l,int r,int mid){
+        int size = r-l+1,k=0,i=l,j=mid+1;
+        long long count =0;
+        vector<int> temp(size);
+        while(i< mid+1 and  j <= r ){
+            if(nums[i]> nums[j]){
+                // cout <<"l : "<<l<<" r : "<<r<< "  k: "<<k<< "  j: "<<j<<endl;
+                temp[k++] = nums[j++];
+                count+=(mid+1-i);
+            }
+            else{
+              // cout<<"l : "<<l<<" r : "<<r << "  k: "<<k<< "  i: "<<i<<endl;
+                temp[k++]=nums[i++];
+                
+            }
+        }
+        for(int x = i;x<=mid;x++){
+            temp[k++]=nums[x];
+        }
+        for(int x = j;x<=r;x++){
+            temp[k++]=nums[x];
+            // cout << "k  "<< k<<" j "<<j<<endl;
+        }
+        for(int i=l;i<=r;i++){
+            nums[i]=temp[i-l];
+            // for(auto& i: temp){
+              // cout << i<<" ";
+            // }
+            // cout <<endl;
+            // for(auto & i : nums){
+      // cout << i<<" ";
+    // }cout<<endl;
+        }
+        
+        
+    }
+    static int countpairs(vector<int> & nums, int l, int mid,int r){
+        int count =0;
+        int right = mid+1;
+        for(int i = l ;i<=mid;i++){
+            while(right<=r and nums[i] > 2*1ll*nums[right])right++;
+            count+=(right-mid-1);
+        }
+        return count;
+    }
+    static int sort(vector<int> & nums, int l ,int r){
+        // cout << l<< " "<<r<<endl;
+        int count =0;
+        if(l==r)return count;
+        int mid = (l+r)>>1;
+        count+=sort(nums,l,mid);
+        count+=sort(nums,mid+1,r);
+        count+=countpairs(nums,l,mid,r);
+        merge(nums,l,r,mid);
+        return count;
+    }
+    static int sortArray(vector<int>& nums) {
+        int left = 0 , right = nums.size()-1,mid = (left+right)>>1;
+        return sort(nums,left,right);
+        
+    }
+};
+class Solution {
+public:
+    int reversePairs(vector<int>& nums) {
+        return solution:: sortArray(nums);
+    }
+};
