@@ -1,0 +1,83 @@
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode * merge(ListNode * head1, ListNode * head2){
+        ListNode * h1 = head1;
+        ListNode * h2 = head2;
+        ListNode * prev = NULL;
+        
+        while(h1!=NULL and h2!= NULL){
+            if(h1->val > h2->val){
+                if(prev ==  NULL){
+                    ListNode * nex = h2->next ; // error case if h2->next ==null
+                    h2->next = h1;
+                    head1 = h2;
+                    h1 = h2;
+                    h2 = nex;
+                }
+                
+                else{
+                    // head2 = h2->next;
+                    prev->next = h2;
+                    prev = prev->next;
+                    // 
+                    ListNode* nexth2 = h2->next;
+                    h2->next = h1;
+                    h2 = nexth2;
+                    
+                }
+            }
+            else {
+                prev =h1;
+                h1 = h1->next;
+            }
+            // prev =h1;
+            
+        }
+        if(h2!=NULL){
+            if(h1!=NULL){
+                h1->next = h2;
+            }      
+            else {
+                if(prev!=NULL)prev->next = h2;
+                else head1 = h2;
+            }
+                
+        }
+        
+        
+       
+        // else prev->next = h2;
+        return head1;
+    }
+    
+    ListNode*sort(vector<ListNode*> & lists,int l,int r ){
+        
+        if(l==r)return lists[l];
+        int mid =  (l+r)>>1;
+        ListNode * head1 = sort(lists,l,mid);
+        ListNode * head2 = sort(lists,mid+1,r);
+        ListNode * mainhead = merge(head1,head2);
+        return mainhead;
+    }
+    
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        
+        int size = lists.size();
+        ListNode * head =NULL;
+        if(size == 0)return head;
+        
+        head = sort(lists,0,size-1);
+        return head;
+    }
+};
